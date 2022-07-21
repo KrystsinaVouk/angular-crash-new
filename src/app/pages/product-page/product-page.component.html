@@ -1,0 +1,33 @@
+<app-modal
+  [modalTitle]="modalTitle"
+  *ngIf="modalService.isVisible$ | async"
+>
+  <app-create-product></app-create-product>
+</app-modal>
+<button
+  class="border-amber-800 fixed right-5 bottom-5 text-white rounded-full bg-amber-600 h-[40px] mb-2 px-2"
+  *ngIf="!(modalService.isVisible$ | async)"
+  (click)="modalService.open()"
+>Create New Product
+</button>
+
+
+  <h1 class="font-bold mb-2 text-center text-lg">{{ title | titlecase }}</h1>
+
+  <input
+    type="text"
+    class="mb-2 border py-2 px-4 w-fill"
+    placeholder="Filter products..."
+    [(ngModel)]="term"
+  />
+
+<p *ngIf="loading" class="text-center text-lg">Loading...</p>
+
+  <div *ngIf="productService.products">
+    <app-product
+      *ngFor="let product of productService.products | filterProducts: term;
+      let i = index"
+      [product]="product"
+    ></app-product>
+  </div>
+

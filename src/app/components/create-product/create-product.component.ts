@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {ModalService} from "../../services/modal.service";
+import {ProductService} from "../../services/product.service";
 
 @Component({
   selector: 'app-create-product',
@@ -19,14 +21,29 @@ export class CreateProductComponent implements OnInit {
     return this.form.controls.title as FormControl
   }
 
-  constructor() { }
+  constructor(private modalService: ModalService, private productService: ProductService) {
+  }
 
   ngOnInit(): void {
   }
 
   submit() {
-    console.log(this.form.value)
-    console.log(this.title.errors)
+    // console.log(this.form.value)
+    // console.log(this.title.errors)
+
+    if (!this.title.errors) {
+      this.productService.create({
+        title: this.form.value.title as string,
+        price: 13.5,
+        description: 'lorem',
+        image: 'https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg',
+        category: 'electronic',
+        rating: {
+          rate: 24,
+          count: 42
+        }
+      }).subscribe(() => this.modalService.close())
+    }
   }
 
 }
