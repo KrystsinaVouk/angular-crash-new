@@ -10,6 +10,7 @@ import {Observable, tap} from "rxjs";
 })
 export class AppComponent implements OnInit {
   title = 'Buzzing version 14';
+  modalTitle = 'Create New Product';
   term = ''
   loading = false
   products$: Observable<IProduct[]>
